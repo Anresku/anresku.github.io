@@ -1,8 +1,3 @@
-* {
-    margin: 0px;
-    padding: 0px;
-}
-
 :root {
     --bg-color: #1a1b26;
     --surface-color: #24283b;
@@ -185,10 +180,12 @@ body {
 }
 
 .log-display-container {
+    display: flex;
+    flex-direction: column;
     background-color: var(--surface-color);
     border-radius: 8px;
-    padding: 2rem;
-    min-height: 300px;
+    padding: 1rem;
+    min-height: 400px;
 }
 
 .processing-overlay {
@@ -202,7 +199,6 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     z-index: 1000;
     color: var(--primary-color);
     font-size: 1.5rem;
@@ -278,7 +274,6 @@ body {
 /* --- Performance Report View --- */
 .summary-header {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
@@ -291,24 +286,22 @@ body {
 
 .summary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-    margin-bottom: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 0.100fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+        align-items: stretch;
+        justify-items: stretch;
+        grid-auto-rows: min-content; /* Allow rows to size to content */
 }
 
 .stat-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    wrap: wrap;
     background-color: var(--bg-color);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1rem;
     cursor: pointer;
-    transition: border-color 0.3s; /* Removed height transition */
-    position: relative; /* For absolute positioning of details */
-    z-index: 1; /* Ensure it's above other cards when expanded */
+    transition: border-color 0.3s, height 0.5s ease-in-out; /* Re-added height transition */
+    overflow: hidden; /* Hide overflowing content during transition */
 }
 
 .stat-card:hover {
@@ -328,50 +321,25 @@ body {
 }
 
 .stat-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: absolute;
-    top: calc(100% - 1px); /* Adjusted to align better with card bottom */
-    left: -1px; /* Overlap border */
-    width: calc(90%); /* Overlap border */
-    background-color: var(--surface-color); /* Changed background */
-    border: 1px solid var(--primary-color);
-    border-top: none;
-    padding: 0.5rem 1rem;
+    max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
-    z-index: 1; /* Ensure it's above other cards */
+    margin-top: 0;
 }
 
-.stat-card.expanded {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-height: 100px; /* Sufficiently large for content */
+.stat-card.expanded .stat-details {
+    max-height: 500px; /* Sufficiently large for content */
     padding-top: 1rem;
     padding-bottom: 1rem;
     border-radius: 0 0 8px 8px; /* Apply border-radius only when expanded */
 }
 
-.stat-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: absolute;
-    max-weight: 100px;
-    max-height: 100px;
-}
-
 .detail-item {
     display: flex;
-    justify-content: space-around;
-    font-size: 0.8rem;
+    justify-content: space-between;
+    font-size: 0.9rem;
     padding-top: 0.5rem;
     border-top: 1px solid var(--border-color);
-    max-height: 60px;
-    max-weight: 60px;
 }
 
 .hotspot-table-container h2 {
