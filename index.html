@@ -3,61 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeathEmpire Project</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>DeathEmpire MMORPG</title>
+    <link rel="stylesheet" href="css/portfolio.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
-    <header class="visualizer-section">
-        <h2>Log Visualizer</h2>
-        <div class="visualizer-controls">
-            <input type="file" id="logFileInput" accept=".json">
-            <button id="loadLogButton">Load Log</button>
-        </div>
-        <div id="logDisplay">Select a .json log file to display its content.</div>
-    </header>
-
     <nav class="main-nav">
-        <div class="nav-links left">
+        <div class="logo">DE</div>
+        <div class="nav-links">
             <a href="#about">About</a>
             <a href="#features">Features</a>
-        </div>
-        <div class="logo">
-            <a href="#">DE</a>
-        </div>
-        <div class="nav-links right">
-            <a href="visualizer.html">Visualizer</a>
             <a href="#downloads">Downloads</a>
-            <a href="https://github.com/Anresku/DeathEmpire-MMORPG" target="_blank">GitHub</a>
+            <a href="visualizer.html" class="nav-button">Visualizer</a>
+            <a href="https://github.com/Anresku/DeathEmpire-MMORPG" target="_blank" class="nav-button">GitHub</a>
         </div>
     </nav>
 
-    <main class="content-section" id="about">
-        <section>
-            <h1>Welcome to DeathEmpire</h1>
-            <p>An ambitious MMORPG for Minecraft, blending ideas from Albion Online and Isekai anime, set in a medieval world with an Asian-inspired backdrop.</p>
+    <header class="hero">
+        <div class="hero-content">
+            <h1>DeathEmpire MMORPG</h1>
+            <p>An ambitious project blending Albion Online and Isekai anime themes.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="about">
+            <h2>About The Project</h2>
+            <p>DeathEmpire is an ambitious MMORPG for Minecraft, set in a medieval world with an Asian-inspired backdrop. The game will feature a rich history, a detailed government system, magic, levels, statistics, a player-influenced market (controlled by guilds and kingdoms), a religion system for healing magic, villages, and comprehensive trade/crafting systems.</p>
         </section>
 
         <section id="features">
             <h2>Key Features</h2>
-            <ul>
-                <li>Rich history and detailed government system.</li>
-                <li>Magic, levels, and player statistics.</li>
-                <li>Player-influenced market controlled by guilds and kingdoms.</li>
-                <li>Procedurally generated dungeons.</li>
-                <li>Four distinct kingdoms and a neutral "Dead Zone".</li>
-            </ul>
+            <div class="features-grid">
+                <div class="feature-card">Player-influenced Economy</div>
+                <div class="feature-card">Four Unique Kingdoms</div>
+                <div class="feature-card">Procedural Dungeons</div>
+                <div class="feature-card">Deep Crafting System</div>
+                <div class="feature-card">Guild & Kingdom Warfare</div>
+                <div class="feature-card">Rich Magic System</div>
+            </div>
         </section>
 
         <section id="downloads">
             <h2>Downloads</h2>
-            <p>Coming soon! The first stable versions of the plugins will be available here.</p>
-            <a href="#" class="btn-download disabled">Plugin Core (Soon)</a>
-            <a href="#" class="btn-download disabled">Plugin Chat (Soon)</a>
+            <p>The first stable versions of the plugins will be available here soon.</p>
+            <div class="download-buttons">
+                <a href="#" class="btn-download disabled">Core Plugin (Soon)</a>
+                <a href="#" class="btn-download disabled">ChatSystem (Soon)</a>
+            </div>
         </section>
     </main>
 
-    <script src="js/script.js"></script>
+    <footer>
+        <p>&copy; 2025 DeathEmpire Project by Anresku. All rights reserved.</p>
+    </footer>
+
 </body>
 </html>
