@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+h1 {
+    color: #0056b3;
+}
+
+#logFileInput, #loadLogButton {
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+#loadLogButton {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+#loadLogButton:hover {
+    background-color: #0056b3;
+}
+
+#logDisplay {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    min-height: 200px;
+    overflow-x: auto;
+}
+
+.log-entry {
+    border-bottom: 1px dashed #eee;
+    padding: 5px 0;
+}
+
+.log-entry:last-child {
+    border-bottom: none;
+}
+
+.log-info { color: #28a745; } /* Green */
+.log-warn { color: #ffc107; } /* Yellow */
+.log-error { color: #dc3545; } /* Red */
+.log-debug { color: #6c757d; } /* Gray */
+.log-trace { color: #17a2b8; } /* Cyan */
+.log-performance { color: #6f42c1; } /* Purple */
+.log-event { color: #fd7e14; } /* Orange */
