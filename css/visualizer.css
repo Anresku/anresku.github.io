@@ -1,3 +1,8 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
 :root {
     --bg-color: #1a1b26;
     --surface-color: #24283b;
@@ -186,6 +191,38 @@ body {
     min-height: 300px;
 }
 
+.processing-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(26, 27, 38, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    z-index: 1000;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 .welcome-message {
     text-align: center;
     color: var(--subtle-text-color);
@@ -241,6 +278,7 @@ body {
 /* --- Performance Report View --- */
 .summary-header {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
@@ -259,12 +297,18 @@ body {
 }
 
 .stat-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    wrap: wrap;
     background-color: var(--bg-color);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 1rem;
     cursor: pointer;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s; /* Removed height transition */
+    position: relative; /* For absolute positioning of details */
+    z-index: 1; /* Ensure it's above other cards when expanded */
 }
 
 .stat-card:hover {
@@ -284,23 +328,50 @@ body {
 }
 
 .stat-details {
-    max-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    top: calc(100% - 1px); /* Adjusted to align better with card bottom */
+    left: -1px; /* Overlap border */
+    width: calc(90%); /* Overlap border */
+    background-color: var(--surface-color); /* Changed background */
+    border: 1px solid var(--primary-color);
+    border-top: none;
+    padding: 0.5rem 1rem;
     overflow: hidden;
-    transition: max-height 0.5s ease-out;
-    margin-top: 0;
+    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+    z-index: 1; /* Ensure it's above other cards */
 }
 
-.stat-card.expanded .stat-details {
-    max-height: 200px;
-    margin-top: 1rem;
+.stat-card.expanded {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-height: 100px; /* Sufficiently large for content */
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 0 0 8px 8px; /* Apply border-radius only when expanded */
+}
+
+.stat-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    max-weight: 100px;
+    max-height: 100px;
 }
 
 .detail-item {
     display: flex;
-    justify-content: space-between;
-    font-size: 0.9rem;
+    justify-content: space-around;
+    font-size: 0.8rem;
     padding-top: 0.5rem;
     border-top: 1px solid var(--border-color);
+    max-height: 60px;
+    max-weight: 60px;
 }
 
 .hotspot-table-container h2 {
@@ -309,14 +380,26 @@ body {
 }
 
 .hotspot-table {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     gap: 0.5rem;
+    grid-template-columns: 1fr; /* Ensure it's a single column grid for rows */
+}
+
+.hotspot-header-row {
+    display: grid;
+    grid-template-columns: 2fr 100px 100px 80px;
+    gap: 1rem;
+    align-items: center;
+    background-color: var(--surface-color);
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+    color: var(--primary-color);
 }
 
 .hotspot-row {
     display: grid;
-    grid-template-columns: 1fr 120px 120px 80px;
+    grid-template-columns: 2fr 100px 100px 80px; /* Adjusted columns */
     gap: 1rem;
     align-items: center;
     background-color: var(--bg-color);
@@ -327,7 +410,7 @@ body {
 }
 
 .hotspot-source {
-    word-break: break-all;
+    word-break: break-word; /* Changed from break-all to break-word for better readability */
 }
 
 .progress-bar-container {
