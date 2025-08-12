@@ -1,49 +1,75 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
 
-h1 {
-    color: #0056b3;
+a {
+    color: #bb86fc;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
 
-#logFileInput, #loadLogButton {
-    margin-bottom: 10px;
+a:hover {
+    color: #ffffff;
+}
+
+h1, h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Visualizer Section */
+.visualizer-section {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-bottom: 1px solid #333;
+}
+
+.visualizer-controls input[type="file"] {
+    border: 1px solid #bb86fc;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
     padding: 8px;
     border-radius: 4px;
-    border: 1px solid #ddd;
 }
 
-#loadLogButton {
-    background-color: #007bff;
-    color: white;
+.visualizer-controls button {
+    background-color: #bb86fc;
+    color: #121212;
+    font-weight: bold;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-#loadLogButton:hover {
-    background-color: #0056b3;
+.visualizer-controls button:hover {
+    background-color: #a06cd5;
 }
 
 #logDisplay {
-    background-color: white;
-    border: 1px solid #ddd;
+    background-color: #000000;
+    border: 1px solid #333;
     padding: 15px;
     border-radius: 5px;
-    min-height: 200px;
+    min-height: 150px;
+    margin-top: 20px;
+    text-align: left;
     overflow-x: auto;
+    font-family: 'Courier New', Courier, monospace;
 }
 
-.log-entry {
-    border-bottom: 1px dashed #eee;
-    padding: 5px 0;
-}
-
-.log-entry:last-child {
-    border-bottom: none;
-}
-
+/* Log Entry Styles (from original file) */
+.log-entry { border-bottom: 1px dashed #444; padding: 5px 0; }
+.log-entry:last-child { border-bottom: none; }
 .log-info { color: #28a745; } /* Green */
 .log-warn { color: #ffc107; } /* Yellow */
 .log-error { color: #dc3545; } /* Red */
@@ -51,3 +77,86 @@ h1 {
 .log-trace { color: #17a2b8; } /* Cyan */
 .log-performance { color: #6f42c1; } /* Purple */
 .log-event { color: #fd7e14; } /* Orange */
+strong { font-weight: bold; }
+
+/* Main Navigation */
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background-color: #1e1e1e;
+    border-bottom: 1px solid #bb86fc;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links a {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1em;
+    text-transform: uppercase;
+}
+
+.logo a {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #ffffff;
+    border: 2px solid #bb86fc;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+/* Content Section */
+.content-section {
+    padding: 40px 10%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.content-section section {
+    margin-bottom: 50px;
+}
+
+.content-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.content-section ul li {
+    background-color: #1e1e1e;
+    margin: 10px 0;
+    padding: 15px;
+    border-left: 4px solid #bb86fc;
+    border-radius: 4px;
+}
+
+.btn-download {
+    display: inline-block;
+    background-color: #bb86fc;
+    color: #121212;
+    padding: 12px 25px;
+    margin: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: transform 0.2s ease;
+}
+
+.btn-download:hover {
+    transform: scale(1.05);
+    color: #000000;
+}
+
+.btn-download.disabled {
+    background-color: #444;
+    color: #888;
+    cursor: not-allowed;
+}
+
+.btn-download.disabled:hover {
+    transform: none;
+}
