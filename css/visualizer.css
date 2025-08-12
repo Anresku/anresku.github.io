@@ -111,6 +111,74 @@ body {
     background-color: #a083d5;
 }
 
+/* --- Report Tabs --- */
+.report-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.tab-item {
+    background-color: var(--surface-color);
+    color: var(--subtle-text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tab-item:hover {
+    background-color: #2e334f;
+    color: var(--text-color);
+}
+
+.tab-item.active {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+    font-weight: bold;
+}
+
+.tab-item.active:hover {
+    background-color: var(--primary-color);
+    color: var(--bg-color);
+}
+
+.close-tab {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-left: 0.5rem;
+    padding: 0 0.2rem;
+    line-height: 1;
+}
+
+.close-tab:hover {
+    color: var(--red);
+}
+
+.clear-all-tabs {
+    background-color: var(--red);
+    color: var(--bg-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: auto; /* Push to the right */
+}
+
+.clear-all-tabs:hover {
+    background-color: #c0392b;
+}
+
 .log-display-container {
     background-color: var(--surface-color);
     border-radius: 8px;
@@ -118,11 +186,43 @@ body {
     min-height: 300px;
 }
 
+.welcome-message {
+    text-align: center;
+    color: var(--subtle-text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px; /* Ensure it takes up space */
+}
+
+.welcome-message h2 {
+    animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 1; }
+    to { opacity: 0.6; }
+}
+
+.processing-message {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    animation: fadeInOut 1s infinite alternate;
+}
+
+@keyframes fadeInOut {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 .hidden {
     display: none !important;
 }
 
-/* --- General Log View (Hastebin) --- */
+/* Info Tooltip */
 .hastebin-view {
     background-color: var(--bg-color);
     border-radius: 6px;
