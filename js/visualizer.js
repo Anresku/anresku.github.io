@@ -3,31 +3,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadLogButton = document.getElementById('loadLogButton');
     const logDisplay = document.getElementById('logDisplay');
     const fileLabelText = document.querySelector('.file-label .file-text');
+    const dropZone = document.querySelector('.file-loader');
 
     // --- Event Listeners ---
     logFileInput.addEventListener('change', () => {
-        fileLabelText.textContent = logFileInput.files.length > 0 ? logFileInput.files[0].name : 'Select a file';
+        if (logFileInput.files.length > 0) {
+            fileLabelText.textContent = logFileInput.files[0].name;
+        }
     });
 
     loadLogButton.addEventListener('click', () => {
-        const file = logFileInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    render(data);
-                } catch (error) {
-                    displayError(`Error parsing JSON: ${error.message}`);
-                }
-            };
-            reader.readAsText(file);
+        if (logFileInput.files.length > 0) {
+            loadFile(logFileInput.files[0]);
         } else {
             displayError('Please select a log file first.');
         }
     });
 
-    // --- Main Render Function ---
+    // --- Drag and Drop Listeners ---
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            logFileInput.files = files; // Assign dropped file to input
+            fileLabelText.textContent = files[0].name;
+            loadFile(files[0]);
+        }
+    });
+
+    // --- Core Logic ---
+    function loadFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                render(data);
+            } catch (error) {
+                displayError(`Error parsing JSON: ${error.message}`);
+            }
+        };
+        reader.readAsText(file);
+    }
+
     function render(data) {
         if (!data.logType || !(data.logs || data.summary)) {
             displayError('Invalid log format. Missing required keys.');
