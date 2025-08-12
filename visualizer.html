@@ -3,62 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeathEmpire MMORPG</title>
-    <link rel="stylesheet" href="css/portfolio.css">
+    <title>DeathEmpire Log Visualizer</title>
+    <link rel="stylesheet" href="css/visualizer.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <nav class="main-nav">
-        <div class="logo">DE</div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#features">Features</a>
-            <a href="#downloads">Downloads</a>
-            <a href="visualizer.html" class="nav-button">Visualizer</a>
-            <a href="https://github.com/Anresku/DeathEmpire-MMORPG" target="_blank" class="nav-button">GitHub</a>
+
+    <div class="app-container">
+        <header class="app-header">
+            <h1>DeathEmpire Log Visualizer</h1>
+            <p>Load a .json log file to inspect general or performance events.</p>
+        </header>
+
+        <div class="file-loader">
+            <input type="file" id="logFileInput" accept=".json" class="file-input">
+            <label for="logFileInput" class="file-label">
+                <span class="file-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l-3 3m3-3l3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+                    </svg>
+                </span>
+                <span class="file-text">Select a file</span>
+            </label>
+            <button id="loadLogButton" class="load-button">Load</button>
         </div>
-    </nav>
 
-    <header class="hero">
-        <div class="hero-content">
-            <h1>DeathEmpire MMORPG</h1>
-            <p>An ambitious project blending Albion Online and Isekai anime themes.</p>
-        </div>
-    </header>
-
-    <main class="container">
-        <section id="about">
-            <h2>About The Project</h2>
-            <p>DeathEmpire is an ambitious MMORPG for Minecraft, set in a medieval world with an Asian-inspired backdrop. The game will feature a rich history, a detailed government system, magic, levels, statistics, a player-influenced market (controlled by guilds and kingdoms), a religion system for healing magic, villages, and comprehensive trade/crafting systems.</p>
-        </section>
-
-        <section id="features">
-            <h2>Key Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">Player-influenced Economy</div>
-                <div class="feature-card">Four Unique Kingdoms</div>
-                <div class="feature-card">Procedural Dungeons</div>
-                <div class="feature-card">Deep Crafting System</div>
-                <div class="feature-card">Guild & Kingdom Warfare</div>
-                <div class="feature-card">Rich Magic System</div>
+        <main id="logDisplay" class="log-display-container">
+            <div class="welcome-message">
+                <h2>Waiting for data...</h2>
+                <p>Select a compatible <code>.json</code> file and click "Load" to begin.</p>
+                <div class="info-tooltip-group">
+                    <div class="info-tooltip">
+                        <span class="info-icon">?</span>
+                        <div class="tooltip-content">
+                            The visualizer supports two log types: <strong>GENERAL</strong> for plain text logs (Hastebin style), and <strong>PERFORMANCE</strong> for detailed performance metrics with progress bars and color codes. The <code>logType</code> key in the JSON root determines the view.
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
+        </main>
+    </div>
 
-        <section id="downloads">
-            <h2>Downloads</h2>
-            <p>The first stable versions of the plugins will be available here soon.</p>
-            <div class="download-buttons">
-                <a href="#" class="btn-download disabled">Core Plugin (Soon)</a>
-                <a href="#" class="btn-download disabled">ChatSystem (Soon)</a>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 DeathEmpire Project by Anresku. All rights reserved.</p>
-    </footer>
-
+    <script src="js/visualizer.js"></script>
 </body>
 </html>
