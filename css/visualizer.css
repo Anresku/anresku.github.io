@@ -35,13 +35,17 @@ body {
     gap: 2rem;
 }
 
-.app-header {
-    text-align: center;
-    border-bottom: 1px solid var(--surface-color);
-    padding-bottom: 1rem;
+.app-header h1 {
+    margin: 0;
+    color: var(--primary-color);
 }
 
-/* ... (Existing file loader styles) ... */
+.file-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.file-loader.drag-over {
 
 .log-display-container {
     background-color: var(--surface-color);
