@@ -1,51 +1,185 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeathEmpire Log Visualizer</title>
-    <link rel="stylesheet" href="css/visualizer.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-</head>
-<body>
+document.addEventListener('DOMContentLoaded', () => {
+    const logFileInput = document.getElementById('logFileInput');
+    const loadLogButton = document.getElementById('loadLogButton');
+    const logDisplay = document.getElementById('logDisplay');
+    const fileLabelText = document.querySelector('.file-label .file-text');
+    const dropZone = document.querySelector('.file-loader');
 
-    <div class="app-container">
-        <header class="app-header">
-            <h1>DeathEmpire Log Visualizer</h1>
-            <p>Load a .json log file to inspect general or performance events.</p>
-        </header>
+    // --- Event Listeners ---
+    logFileInput.addEventListener('change', () => {
+        if (logFileInput.files.length > 0) {
+            fileLabelText.textContent = logFileInput.files[0].name;
+        }
+    });
 
-        <div class="file-loader">
-            <input type="file" id="logFileInput" accept=".json" class="file-input">
-            <label for="logFileInput" class="file-label">
-                <span class="file-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l-3 3m3-3l3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
-                    </svg>
-                </span>
-                <span class="file-text">Select a file</span>
-            </label>
-            <button id="loadLogButton" class="load-button">Load</button>
-        </div>
+    loadLogButton.addEventListener('click', () => {
+        if (logFileInput.files.length > 0) {
+            loadFile(logFileInput.files[0]);
+        } else {
+            displayError('Please select a log file first.');
+        }
+    });
 
-        <main id="logDisplay" class="log-display-container">
-            <div class="welcome-message">
-                <h2>Waiting for data...</h2>
-                <p>Select a compatible <code>.json</code> file and click "Load" to begin.</p>
-                <div class="info-tooltip-group">
-                    <div class="info-tooltip">
-                        <span class="info-icon">?</span>
-                        <div class="tooltip-content">
-                            The visualizer supports two log types: <strong>GENERAL</strong> for plain text logs (Hastebin style), and <strong>PERFORMANCE</strong> for detailed performance metrics with progress bars and color codes. The <code>logType</code> key in the JSON root determines the view.
-                        </div>
-                    </div>
+    // --- Drag and Drop Listeners ---
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('drag-over');
+    });
+
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('drag-over');
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('drag-over');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            logFileInput.files = files; // Assign dropped file to input
+            fileLabelText.textContent = files[0].name;
+            loadFile(files[0]);
+        }
+    });
+
+    // --- Core Logic ---
+    function loadFile(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+                render(data);
+            } catch (error) {
+                displayError(`Error parsing JSON: ${error.message}`);
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    function render(data) {
+        if (!data.logType || !(data.logs || data.summary)) {
+            displayError('Invalid log format. Missing required keys.');
+            return;
+        }
+
+        logDisplay.innerHTML = ''; // Clear previous content
+
+        switch (data.logType.toUpperCase()) {
+            case 'GENERAL':
+                renderGeneralView(data.logs);
+                break;
+            case 'PERFORMANCE_REPORT':
+                renderPerformanceReportView(data);
+                break;
+            default:
+                displayError(`Unknown logType: "${data.logType}".`);
+        }
+    }
+
+    // --- View Renderers ---
+    function renderPerformanceReportView(data) {
+        // 1. Render Summary Section
+        const summaryContainer = document.createElement('div');
+        summaryContainer.innerHTML = `
+            <div class="summary-header">
+                <h2>Performance Summary</h2>
+                <!-- Filter button will be added here if needed -->
+            </div>
+            <div class="summary-grid"></div>
+        `;
+        const summaryGrid = summaryContainer.querySelector('.summary-grid');
+
+        // Create and append stat cards
+        summaryGrid.appendChild(createTpsCard(data.summary.tps));
+        summaryGrid.appendChild(createMsptCard(data.summary.mspt));
+        summaryGrid.appendChild(createCpuCard(data.summary.cpu));
+        summaryGrid.appendChild(createMemoryCard(data.summary.memory));
+        
+        logDisplay.appendChild(summaryContainer);
+
+        // 2. Render Hotspots Table
+        if (data.hotspots && data.hotspots.length > 0) {
+            const hotspotContainer = document.createElement('div');
+            hotspotContainer.className = 'hotspot-table-container';
+            hotspotContainer.innerHTML = `<h2>Hotspots</h2><div class="hotspot-table"></div>`;
+            const hotspotTable = hotspotContainer.querySelector('.hotspot-table');
+            data.hotspots.forEach(hotspot => {
+                hotspotTable.appendChild(createHotspotRow(hotspot));
+            });
+            logDisplay.appendChild(hotspotContainer);
+        }
+    }
+
+    function renderGeneralView(logs) { /* ... (code from previous version) ... */ }
+
+    // --- Stat Card Creators ---
+    function createStatCard(title, value, detailsHTML) {
+        const card = document.createElement('div');
+        card.className = 'stat-card';
+        card.innerHTML = `
+            <div class="stat-card-header">
+                <span>${title}</span>
+            </div>
+            <div class="stat-card-value">${value}</div>
+            <div class="stat-details">${detailsHTML}</div>
+        `;
+        card.addEventListener('click', () => card.classList.toggle('expanded'));
+        return card;
+    }
+
+    function createTpsCard(tps) {
+        const details = `<div class="detail-item"><span>Average</span><strong>${tps.average}</strong></div>`;
+        return createStatCard('TPS', tps.current, details);
+    }
+
+    function createMsptCard(mspt) {
+        const details = `
+            <div class="detail-item"><span>95th Percentile</span><strong>${mspt.p95}ms</strong></div>
+            <div class="detail-item"><span>Max</span><strong>${mspt.max}ms</strong></div>
+        `;
+        return createStatCard('MSPT', `${mspt.average}ms`, details);
+    }
+
+    function createCpuCard(cpu) {
+        const details = `
+            <div class="detail-item"><span>System</span><strong>${cpu.system}%</strong></div>
+            <div class="detail-item"><span>Idle</span><strong>${cpu.idle}%</strong></div>
+        `;
+        return createStatCard('CPU (Process)', `${cpu.process}%`, details);
+    }
+
+    function createMemoryCard(memory) {
+        const details = `<div class="detail-item"><span>Total</span><strong>${memory.totalMB}MB</strong></div>`;
+        return createStatCard('Memory Used', `${memory.usedMB}MB`, details);
+    }
+
+    // --- Hotspot Row Creator ---
+    function createHotspotRow(hotspot) {
+        const row = document.createElement('div');
+        row.className = 'hotspot-row';
+
+        const selfTimeColor = getProgressiveColor(hotspot.selfTimePercent, 100);
+        const totalTimeColor = getProgressiveColor(hotspot.totalTimePercent, 100);
+
+        row.innerHTML = `
+            <div class="hotspot-source">${hotspot.source}</div>
+            <div>
+                <span>${hotspot.selfTimePercent.toFixed(2)}%</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill ${selfTimeColor}" style="width: ${hotspot.selfTimePercent}%;"></div>
                 </div>
             </div>
-        </main>
-    </div>
+            <div>
+                <span>${hotspot.totalTimePercent.toFixed(2)}%</span>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill ${totalTimeColor}" style="width: ${hotspot.totalTimePercent}%;"></div>
+                </div>
+            </div>
+            <div>${hotspot.count}</div>
+        `;
+        return row;
+    }
 
-    <script src="js/visualizer.js"></script>
-</body>
-</html>
+    // --- Helpers ---
+    function displayError(message) { /* ... */ }
+    function getProgressiveColor(value, max) { /* ... */ }
+});
