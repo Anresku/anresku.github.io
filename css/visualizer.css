@@ -46,6 +46,9 @@ body {
 }
 
 .file-loader.drag-over {
+    border-style: solid;
+    background-color: #2e334f;
+}
 
 .log-display-container {
     background-color: var(--surface-color);
